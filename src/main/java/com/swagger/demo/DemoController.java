@@ -1,5 +1,10 @@
 package com.swagger.demo;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-//@RequiredArgsConstructor
 public class DemoController {
 
     Logger logger = LoggerFactory.getLogger(DemoController.class);
@@ -30,6 +34,10 @@ public class DemoController {
         this.memberRepository = memberRepository;
     }
 
+    @Operation(summary = "find all members")
+    @ApiResponse(responseCode = "200", description = "get all members",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = Member.class))})
     @GetMapping("/members")
     public ResponseEntity<List<Member>> getMembers() {
         List<Member> members = memberRepository.findAll();
