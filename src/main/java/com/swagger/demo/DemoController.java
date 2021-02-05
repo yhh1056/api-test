@@ -28,14 +28,14 @@ public class DemoController {
         this.memberRepository = memberRepository;
     }
 
-    @GetMapping("/members")
+    @GetMapping("/api/members")
     public ResponseEntity<List<Member>> getMembers() {
         List<Member> members = memberRepository.findAll();
         members.forEach(member -> logger.info(member.toString()));
         return new ResponseEntity(members, HttpStatus.OK);
     }
 
-    @PostMapping("/members")
+    @PostMapping("/api/members")
     public ResponseEntity<String> createUser(@RequestBody MemberDto memberDto) {
 
         Member member = memberDto.toEntity();
@@ -43,13 +43,13 @@ public class DemoController {
         return ResponseEntity.ok("resource update");
     }
 
-    @GetMapping("/members/{id}")
+    @GetMapping("/api/members/{id}")
     public Member getMember(@PathVariable Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException());
     }
 
-    @DeleteMapping("/members/{id}")
+    @DeleteMapping("/api/members/{id}")
     public ResponseEntity<String> deleteMember(@PathVariable Long id) {
         memberRepository.deleteById(id);
         return ResponseEntity.ok("resource delete");
