@@ -12,11 +12,15 @@ import lombok.Setter;
 @Setter
 public class MemberDto {
 
-    private String userId;
+    private String username;
 
     private String password;
 
+    private int age;
+
+    private String address;
+
     public Member toEntity() {
-        return new Member(userId, password);
+        return new Member(username, password, age, address);
     }
 }

@@ -1,43 +1,38 @@
 package com.swagger.demo;
 
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author yhh1056
  * @since 2021/01/28
  */
 
-@Entity
+@Entity(name = "member")
 @Getter
+@NoArgsConstructor
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userId;
+    private String username;
 
     private String password;
 
-    public Member(String userId, String password) {
-        this.userId = userId;
+    private int age;
+
+    private String address;
+
+    public Member(String username, String password, int age, String address) {
+        this.username = username;
         this.password = password;
-    }
-
-    public Member() {
-    }
-
-    @Override
-    public String toString() {
-        return "Member{" +
-            "userId='" + userId + '\'' +
-            ", password='" + password + '\'' +
-            '}';
+        this.age = age;
+        this.address = address;
     }
 }
