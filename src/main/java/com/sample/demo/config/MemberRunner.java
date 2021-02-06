@@ -1,5 +1,8 @@
-package com.swagger.demo;
+package com.sample.demo.config;
 
+import com.sample.demo.model.Member;
+import com.sample.demo.repository.MemberRepository;
+import com.sample.demo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,10 +21,11 @@ public class MemberRunner implements ApplicationRunner {
     @Autowired
     MemberService memberService;
 
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Member member1 = new Member("yhh", "1234", 27, "seoul");
-        Member member2 = new Member( "osh", "osh123", 43, "vietnam");
+        Member member2 = new Member( "hhh", "hhh", 43, "seoul");
         Member member3 = new Member("aaa", "12", 21, "seoul");
         Member member4 = new Member("bbb", "12345", 21, "seoul");
         Member member5 = new Member("ccc", "12453", 23, "seoul");
@@ -30,8 +34,8 @@ public class MemberRunner implements ApplicationRunner {
         Member member8 = new Member("hhh", "12434", 26, "seoul");
         Member member9 = new Member("qqq", "12345", 75, "seoul");
 
-        memberService.createAdmin(member1);
-        memberService.createAdmin(member2);
+        memberService.createMember(member1);
+        memberRepository.save(member2);
         memberRepository.save(member3);
         memberRepository.save(member4);
         memberRepository.save(member5);

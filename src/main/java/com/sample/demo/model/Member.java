@@ -1,4 +1,4 @@
-package com.swagger.demo;
+package com.sample.demo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author yhh1056
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Entity(name = "member")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Member {
 

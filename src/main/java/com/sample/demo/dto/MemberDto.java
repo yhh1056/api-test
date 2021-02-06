@@ -1,5 +1,6 @@
-package com.swagger.demo;
+package com.sample.demo.dto;
 
+import com.sample.demo.model.Member;
 import lombok.Getter;
 import lombok.Setter;
 

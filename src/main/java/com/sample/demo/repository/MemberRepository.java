@@ -1,5 +1,6 @@
-package com.swagger.demo;
+package com.sample.demo.repository;
 
+import com.sample.demo.model.Member;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findById(Long id);
 
     void deleteById(Long id);
+
+    Optional<Member> findByUsername(String username);
 }
