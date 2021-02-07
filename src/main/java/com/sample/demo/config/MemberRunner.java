@@ -31,11 +31,11 @@ public class MemberRunner implements ApplicationRunner {
         Member member5 = new Member("ccc", "12453", 23, "seoul");
         Member member6 = new Member("ddd", "12564", 26, "seoul");
         Member member7 = new Member("eee", "1275", 31, "seoul");
-        Member member8 = new Member("hhh", "12434", 26, "seoul");
+        Member member8 = new Member("hhh1", "12434", 26, "seoul");
         Member member9 = new Member("qqq", "12345", 75, "seoul");
 
         memberService.createMember(member1);
-        memberRepository.save(member2);
+        memberService.createMember(member2);
         memberRepository.save(member3);
         memberRepository.save(member4);
         memberRepository.save(member5);

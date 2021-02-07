@@ -1,5 +1,6 @@
 package com.sample.demo.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -9,13 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 
 @Controller
-public class SampleController {
+public class LoginController {
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/hello")
     public String hello() {
         return "hello";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/info")
     public String hidden() {
         return "info";

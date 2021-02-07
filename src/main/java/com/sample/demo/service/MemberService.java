@@ -3,7 +3,6 @@ package com.sample.demo.service;
 import com.sample.demo.model.Member;
 import com.sample.demo.repository.MemberRepository;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,18 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final Optional<Member> findMember = memberRepository.findByUsername(username);
         final Member member = findMember.orElseThrow(() -> new UsernameNotFoundException(username));
+        if (member.getUsername().equals("hhh")) {
+            return new User(member.getUsername(), member.getPassword(), roleAdmin());
+        }
 
-        return new User(member.getUsername(), member.getPassword(), authorities());
+        return new User(member.getUsername(), member.getPassword(), roleUser());
     }
 
-    private List<GrantedAuthority> authorities() {
+    private List<GrantedAuthority> roleUser() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    private List<GrantedAuthority> roleAdmin() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 }

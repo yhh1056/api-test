@@ -1,5 +1,8 @@
-package com.swagger.demo;
+package com.sample.demo.controller;
 
+import com.sample.demo.dto.MemberDto;
+import com.sample.demo.model.Member;
+import com.sample.demo.repository.MemberRepository;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
