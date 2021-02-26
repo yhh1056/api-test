@@ -2,17 +2,17 @@ package com.sample.mvc;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.Min;
-import lombok.AllArgsConstructor;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.asm.Advice.Local;
 
 @Getter
 @Setter
 public class Event {
+
     private Long id;
 
+    @NotNull
     private String name;
 
     @Min(0)

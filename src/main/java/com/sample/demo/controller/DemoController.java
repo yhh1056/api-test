@@ -3,9 +3,12 @@ package com.sample.demo.controller;
 import com.sample.demo.dto.MemberDto;
 import com.sample.demo.model.Member;
 import com.sample.demo.repository.MemberRepository;
+import com.sample.mvc.Account;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +34,13 @@ public class DemoController {
         this.memberRepository = memberRepository;
     }
 
+    @GetMapping("/api")
+    public ResponseEntity<Page<Member>> getPage(Pageable pageable) {
+        final Page<Member> page = memberRepository.findAll(pageable);
+        System.out.println(page);
+        return ResponseEntity.ok(page);
+    }
+
     @GetMapping("/api/members")
     public ResponseEntity<List<Member>> getMembers() {
         List<Member> members = memberRepository.findAll();
@@ -48,8 +58,7 @@ public class DemoController {
 
     @GetMapping("/api/members/{id}")
     public Member getMember(@PathVariable Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException());
+        return memberRepository.findById(id).orElse(new Member());
     }
 
     @DeleteMapping("/api/members/{id}")

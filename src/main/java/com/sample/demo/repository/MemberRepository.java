@@ -3,6 +3,8 @@ package com.sample.demo.repository;
 import com.sample.demo.model.Member;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findAll();
+
+    Page<Member> findAll(Pageable pageable);
 
     Optional<Member> findById(Long id);
 

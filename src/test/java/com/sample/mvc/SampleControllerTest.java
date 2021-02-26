@@ -1,5 +1,6 @@
 package com.sample.mvc;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -14,6 +16,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -35,7 +39,8 @@ class SampleControllerTest {
         mockMvc.perform(get("/events/form"))
                 .andDo(print())
                 .andExpect(view().name("/events/form"))
-                .andExpect(model().attributeExists("event"));
+                .andExpect(model().attributeExists("event"))
+                .andExpect(request().sessionAttribute("event", notNullValue()));
     }
 
     @Test
@@ -45,9 +50,7 @@ class SampleControllerTest {
                 .param("name", "mvc event")
                 .param("limit", "10"))
                 .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("name").value("mvc event"))
-                .andExpect(jsonPath("limit").value(10));
+                .andDo(print());
     }
 
     @Test
@@ -59,8 +62,7 @@ class SampleControllerTest {
                 .param("limit", "invalid value"))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("name").value("mvc event"))
-                .andExpect(jsonPath("limit").value(0));
+                .andExpect(model().hasErrors());
     }
 
     @Test
@@ -74,5 +76,13 @@ class SampleControllerTest {
                 .andExpect(model().hasErrors());
     }
 
-
+    @Test
+    void pathVariable() throws Exception {
+        mockMvc.perform(get("/events/1;name=yhh"))
+//                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+//                .andExpect(jsonPath("id").value(1L))
+//                .andExpect(jsonPath("name").value("yhh"))
+                .andDo(print());
+    }
 }

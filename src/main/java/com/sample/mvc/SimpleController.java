@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("party")
@@ -28,7 +29,8 @@ public class SimpleController {
     }
 
     @PostMapping("/party/form/name")
-    public String addEventName(@Valid @ModelAttribute Party party, BindingResult bindingResult, Model model) {
+    public String addEventName(@Valid @ModelAttribute Party party, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "/party/form-name";
         }
@@ -48,19 +50,24 @@ public class SimpleController {
 
     @PostMapping("/party/form/time")
     public String addEventTime(@Valid @ModelAttribute Party party,
-                                BindingResult bindingResult,
-                                SessionStatus sessionStatus) {
+                BindingResult bindingResult,
+                SessionStatus sessionStatus,
+                RedirectAttributes attributes) {
         if (bindingResult.hasErrors()) {
             return "/party/form-time";
         }
         parties.add(party);
 
         sessionStatus.isComplete();
+        attributes.addFlashAttribute("newParty", party);
+
         return "redirect:/party/list";
     }
 
     @GetMapping("/party/list")
     public String getEvents(Model model) {
+        final Party newParty = (Party) model.asMap().get("newParty");
+        parties.add(newParty);
         model.addAttribute("party", parties);
         return "/party/list";
     }
