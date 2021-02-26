@@ -41,8 +41,11 @@ class MemberControllerTest {
     @Autowired
     RestdocsConfig docs;
 
-    MockMvc mockMvc;
+    @Autowired
     RestDocumentationResultHandler document;
+
+    MockMvc mockMvc;
+
 
     @BeforeEach
     void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
