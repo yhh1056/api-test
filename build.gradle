@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.4.2'
+    id "org.asciidoctor.convert" version "1.5.9.2" // Asciidoctor 플러그인
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -23,17 +24,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-
-
-//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     compileOnly 'org.projectlombok:lombok'
-//    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.2'
 
-//    runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
-//    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.4.2'
     runtimeOnly 'com.h2database:h2'
     testCompile group: 'com.h2database', name: 'h2', version: '1.3.148'
     testCompile 'org.springframework.security:spring-security-test'
@@ -41,6 +35,18 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')    // 출력 위치
+}
+
 test {
     useJUnitPlatform()
+    outputs.dir snippetsDir
 }
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test // 테스트 코드 후 문서 작성
+
+}
+
