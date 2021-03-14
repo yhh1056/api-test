@@ -2,17 +2,9 @@ package com.sample.demo.service;
 
 import com.sample.demo.model.Member;
 import com.sample.demo.repository.MemberRepository;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,35 +13,27 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService{
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
-    public void createMember(Member member) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
+    public Page<Member> findAll(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    public void save(Member member) {
         memberRepository.save(member);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final Optional<Member> findMember = memberRepository.findByUsername(username);
-        final Member member = findMember.orElseThrow(() -> new UsernameNotFoundException(username));
-        if (member.getUsername().equals("hhh")) {
-            return new User(member.getUsername(), member.getPassword(), roleAdmin());
-        }
-
-        return new User(member.getUsername(), member.getPassword(), roleUser());
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
 
-    private List<GrantedAuthority> roleUser() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    private List<GrantedAuthority> roleAdmin() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
     }
 }
